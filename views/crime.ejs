@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Ninja Crimes</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+    </head>
+    <body>
+        <h2>Ninja Crime</h2>
+        <h4>Your Gold: <%= gold %></h4>
+        <main class = 'row'>
+            <div class="three columns">
+                <h3>Farm</h3>
+                <p>Earn 10-20 gold</p>
+                <form action="/farm" method="post">
+                    <input type="submit" name="farm" value="farm">
+                </form>
+            </div>
+            <div class="three columns">
+                <h3>Cave</h3>
+                <p>Earn 5-10 gold</p>
+                <form action="/cave" method="post">
+                    <input type="submit" name="cave" value="cave">
+                </form>
+            </div>
+            <div class="three columns">
+                <h3>House</h3>
+                <p>Earn 2-5 gold</p>
+                <form action="/house" method="post">
+                    <input type="submit" name="house" value="house">
+                </form>
+            </div>
+            <div class="three columns">
+                <h3>Casino</h3>
+                <p>Win/Lose 0-50 gold</p>
+                <form action="/casino" method="post">
+                    <input type="submit" name="casino" value="casino">
+                </form>
+            </div>
+        </main>
+        Activities:
+        <footer>
+            <ul>
+                <% for (var x in history) {%>
+                    <li><%= history[x]%></li>
+                <% } %>
+            </ul>
+        </footer>
+        <form action="/reset" method="post">
+            <input type="submit" name="clear" value="clear">
+        </form>
+    </body>
+</html>
