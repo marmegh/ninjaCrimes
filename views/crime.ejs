@@ -2,47 +2,71 @@
     <head>
         <title>Ninja Crimes</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src = "/socket.io/socket.io.js"></script>
+        <script type = "text/javascript">
+            $(document).ready(function(){
+                var socket = io.connect();
+                $('.farm').click(function(){
+                    socket.emit("farming");
+                });
+                $('.street').click(function(){
+                    socket.emit("hood");
+                });
+                $('.house').click(function(){
+                    socket.emit("thug");
+                });
+                $('.casino').click(function(){
+                    socket.emit("risk");
+                });
+                socket.on('server_response', function (data){
+                    console.log('The server is talking to me...'+data.data.gold);
+                    var gold = data.data.gold;
+                    console.log(gold);
+                    $('.gold').val(gold);
+                });
+            })
+        </script>
     </head>
     <body>
         <h2>Ninja Crime</h2>
-        <h4>Your Gold: <%= gold %></h4>
+        <h4>Your Gold: <input class = "gold"></input></h4>
         <main class = 'row'>
             <div class="three columns">
                 <h3>Farm</h3>
-                <p>Earn 10-20 gold</p>
-                <form action="/farm" method="post">
+                <p>Dirt...lots of dirt...</p>
+                <!-- <form action="/farm" method="post">
                     <input type="submit" name="farm" value="farm">
-                </form>
+                </form> -->
+                <button class = "farm">FARM</button>
             </div>
             <div class="three columns">
-                <h3>Cave</h3>
-                <p>Earn 5-10 gold</p>
-                <form action="/cave" method="post">
+                <h3>Street</h3>
+                <p>It's a hard knock life...</p>
+                <!-- <form action="/cave" method="post">
                     <input type="submit" name="cave" value="cave">
-                </form>
+                </form> -->
+                <button class = "street">STREET</button>
             </div>
             <div class="three columns">
                 <h3>House</h3>
-                <p>Earn 2-5 gold</p>
-                <form action="/house" method="post">
+                <p>How big is this house?</p>
+                <!-- <form action="/house" method="post">
                     <input type="submit" name="house" value="house">
-                </form>
+                </form> -->
+                <button class = "house">HOUSE</button>
             </div>
             <div class="three columns">
                 <h3>Casino</h3>
-                <p>Win/Lose 0-50 gold</p>
-                <form action="/casino" method="post">
+                <p>Are you feeling lucky?</p>
+                <!-- <form action="/casino" method="post">
                     <input type="submit" name="casino" value="casino">
-                </form>
+                </form> -->
+                <button class = "casino">CASINO</button>
             </div>
         </main>
         Activities:
         <footer>
-            <ul>
-                <% for (var x in history) {%>
-                    <li><%= history[x]%></li>
-                <% } %>
-            </ul>
         </footer>
         <form action="/reset" method="post">
             <input type="submit" name="clear" value="clear">
