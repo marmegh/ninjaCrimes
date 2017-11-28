@@ -64,12 +64,10 @@ app.get('/', function(req, res){
 //     res.redirect('/');
 //     res.end();
 // })
-// app.post('/reset', function (req, res)
-// {
-//     req.session.gold = 0;
-//     req.session.history.length = 0;
-//     res.redirect('/');
-// })
+app.post('/reset', function (req, res)
+{
+    res.redirect('/');
+})
 var server = app.listen(8000, function()
 {
     console.log("listening on port 8000");
@@ -78,8 +76,12 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket)
 {
     var gold = 0;
-    var hx = ["And the thought occurred, maybe crime would be easier..."];
-    var loot = 0;    
+    var monthNames = ["January", "February", "March", "April", "May", "June",    "July", "August", "September", "October", "November", "December"  ];
+    var loot = 0;
+    var date = new Date();
+    let datetime = "- " + date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() + " @ " + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes();
+    var hx = `And the thought occurred, maybe crime would be easier... ${datetime}`;
+    console.log(datetime);
     data = {
         "gold": gold,
         "hx": hx,
@@ -91,7 +93,10 @@ io.sockets.on('connection', function(socket)
     socket.on("farming", function(data){
         console.log("Farming is happening here");
         let loot = Math.floor(Math.random() * 5) + 5;
+        date = new Date();
+        let datetime = "- " + date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() + " @ " + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes();
         gold += loot;
+        hx = `Returned to the old farm. Stole the crops, sold them at market, and made off with ${loot} gold. ${datetime}`;
         data = {
             "gold": gold,
             "hx": hx,
@@ -103,6 +108,10 @@ io.sockets.on('connection', function(socket)
         console.log("I got in one little fight and my mom got scared.");
         let loot = Math.floor(Math.random() * 5) + 5;
         gold += loot;
+        date = new Date();
+        let datetime = "- " + date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() + " @ " + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes();
+        gold += loot;
+        hx = `Street hustle scored ${loot} gold. ${datetime}`;
         data = {
             "gold": gold,
             "hx": hx,
@@ -114,6 +123,10 @@ io.sockets.on('connection', function(socket)
         console.log("Are those sirens?");
         let loot = Math.floor(Math.random() * 3) + 2;
         gold += loot;
+        date = new Date();
+        let datetime = "- " + date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() + " @ " + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes();
+        gold += loot;
+        hx = `Broke into a house, rummaged through a couch and found ${loot} gold. Then the sirens happened. ${datetime}`;
         data = {
             "gold": gold,
             "hx": hx,
@@ -125,10 +138,15 @@ io.sockets.on('connection', function(socket)
         console.log("Oceans 11");
         let loot = Math.floor(Math.random() * 10) + 10;
         let odds = Math.random();
+        date = new Date();
+        let datetime = "- " + date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear() + " @ " + date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes();
+        gold += loot;
         if(odds > 0.5){
             gold += loot;
+            hx = `Went to the casino and despite being incredibly obvious you did not get caught counting cards! You won ${loot} gold ${datetime}`;
         }else{
             gold -= loot;
+            hx = `The house always wins. You lost ${loot} gold ${datetime}`;
         }
         data = {
             "gold": gold,

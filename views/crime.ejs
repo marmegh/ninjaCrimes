@@ -22,8 +22,11 @@
                 socket.on('server_response', function (data){
                     console.log('The server is talking to me...'+data.data.gold);
                     var gold = data.data.gold;
+                    var hx = data.data.hx;
+                    console.log(hx);
                     console.log(gold);
                     $('.gold').val(gold);
+                    $('ul').prepend(`<li> ${hx} </li>`);
                 });
             })
         </script>
@@ -67,6 +70,9 @@
         </main>
         Activities:
         <footer>
+            <ul>
+                <li>Ninja Crime!</li>
+            </ul>
         </footer>
         <form action="/reset" method="post">
             <input type="submit" name="clear" value="clear">
